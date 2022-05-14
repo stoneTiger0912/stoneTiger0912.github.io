@@ -106,14 +106,26 @@ author:
   avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
   bio              : "기록을 습관화 하자"
   location         : "Republic of Korea"
-  email            :  
+  email            : 
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
-       url: "mailto:seokbeom0912@email.com"
+      url: mailto:seokbeom0912@email.com
+    #- label: "Website"
+      #icon: "fas fa-fw fa-link"
+      # url: "https://your-website.com"
+    #- label: "Twitter"
+      #icon: "fab fa-fw fa-twitter-square"
+      # url: "https://twitter.com/"
+    #- label: "Facebook"
+      #icon: "fab fa-fw fa-facebook-square"
+      # url: "https://facebook.com/"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-       url: "https://github.com/stoneTiger0912"
+      url: "https://github.com/stoneTiger0912"
+    #- label: "Instagram"
+      #icon: "fab fa-fw fa-instagram"
+      # url: "https://instagram.com/"
 
 # Site Footer
 footer:
