@@ -3,7 +3,7 @@ title:  "[Java] 모던 자바 인 액션"
 excerpt: "자바 8,9,10의 람다, 스트림, 함수형, 리엑티브 프로그래밍등 새로워진 자바를 요약하는 포스팅"
 
 categories:
-  - Blog
+  - Java
 tags:
   - [Blog, java, lambda, stream]
 
@@ -11,7 +11,7 @@ toc: true
 toc_sticky: true
  
 date: 2022-05-13
-last_modified_at: 2020-05-13
+last_modified_at: 2022-05-13
 ---
 
 # 1 자바 8의 새로운 기법
