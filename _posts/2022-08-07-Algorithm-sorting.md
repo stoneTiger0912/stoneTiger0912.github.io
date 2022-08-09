@@ -74,6 +74,7 @@ array.sort(key=lambda x : x[1])
 for i in range(array):
     print(i[0], end=' ')
 ```
+
 ## 2-2.답안 예시
 ```python
 n = int(input())
@@ -93,4 +94,4 @@ for student in array:
 
 ## 2-3.답안 예시와 내가 푼 답의 차이점
 sorted와 soet에서 key로 정렬을 할 수 있다는 점에서 둘다 써도 될 것 같다.
-lambda 좀 정리 해야겠다.
+lambda 좀 정리 해야겠다.  
