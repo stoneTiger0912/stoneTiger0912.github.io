@@ -92,4 +92,5 @@ for student in array:
 ```
 
 ## 2-3.답안 예시와 내가 푼 답의 차이점
-sorted와 soet에서 key로 정렬을 할 수 있다는 점에서 둘다 써도 될 것 같다. 
+sorted와 soet에서 key로 정렬을 할 수 있다는 점에서 둘다 써도 될 것 같다.
+lambda 좀 정리 해야겠다.

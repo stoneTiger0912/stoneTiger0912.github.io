@@ -61,7 +61,7 @@ while m > 0:
 print(result)
 ```
 
-## 1-2,답안 예시
+## 1-2.답안 예시
 ```python
 n, m, k = map(int, input().split())
 
