@@ -1,5 +1,5 @@
 ---
-title:  "[Algorithm] 알고리즘 정리(5)- 최단 경로 알고리즘"
+title:  "[Algorithm] 알고리즘 정리(7)- 최단 경로 알고리즘"
 excerpt: "코딩 테스트 대비 알고리즘을 정리 하는 글"
 
 categories:
@@ -73,6 +73,7 @@ last_modified_at: 2022-08-11
         distance[start] = 0
         visited[start] = True
         for j in graph[start]:
+            #j[0]은 위에서 구한 b j[1]은 비용 c를 나타냄
             distance[j[0]] = j[1]
         #시작노드를 제외한 전체 n - 1노드에 대해 반복
         for i in range(n - 1):
