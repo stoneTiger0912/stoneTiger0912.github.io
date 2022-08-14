@@ -271,8 +271,9 @@ print(result)
 3. 새롭게 진입차수가 0이 된 노드를 큐에 넣는다.
 - 즉 위의 예시에서 자료구조 -> 알고리즘 -> 고급 알고리즘 순으로 제거
 - O(v + e)
-## 코드
-```python
+## 코드  
+```python  
+
 from collections import deque
 
 v, e = map(int, input().split())
