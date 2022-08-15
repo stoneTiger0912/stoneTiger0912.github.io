@@ -16,7 +16,9 @@ last_modified_at: 2022-08-15
 
 # 소수의 판별
 - 소수를 판별할 때 무작정 1부터 n까지 나누어 떨어지는지 확이해도 좋지만 다음과 같은 방법으로 효율적으로 사용할 수 있다. 
-- 약수는 가운데를 기준으로 대칭을 이루므로 제곱근만 보면 된다.
+- 약수는 가운데를 기준으로 대칭을 이루므로 제곱근만 보면 된다.  
+
+
 ## 제곱근 예시
 ```python
 import math
@@ -28,11 +30,13 @@ def is_prime_number(x):
 
         return True
 ```
+
 ## 에라토스테네스 체 알고리즘
 1. 2부터 N까지 나열한다
 2. 남는 수중에 가장 작은 수를 찾고 그 수에 배수를 모두 지운다.
 - 예를 들어 26까지 있다면 처음 2를 선택하고 2의 배수를 모두 지우고 그다음 3의 배수를 지우고를 반복한다.
 - 매우 적은 시간이 들지만 높은 메모리를 요구한다.
+
 ```python
 import math
 
@@ -156,7 +160,6 @@ print(prefix[right] - prefix[left - 1])
 - **조합**이란 서로 다른 n개에서 순서에 상관없이 서로 다른 r개를 선택 nCr
 - combinations()를 사용한다.
 
-
 ```python
 ## 순열
 import itertools
@@ -175,14 +178,13 @@ for x in itertools.combinations(data, 2):
     print(list(x), end=' ')
 ```
 
-
-
 # 문제
 
 ## 1.소수 구현하기
 M이상 N이하의 소수를 구하시오
 
 ## 1-1.내가 푼 답
+
 ```python
 import math
 
@@ -204,6 +206,7 @@ for i in range(m, n+1):
 ```
 
 ## 1-2.답안 예시
+
 ```python
 import math
 
@@ -236,6 +239,7 @@ for i in range(m, n+1):
 c개의 문자가 주어졌을 때 가능성 있는 암호들을 모두 구하라
 
 ## 2-1.내가 푼 답(못풀었음)
+
 ```python
 import itertools
 import sys
@@ -259,6 +263,7 @@ vo.sort()
 ```
   
 ## 2-2.답안 예시
+
 ```python
 from itertools import combinations
 

@@ -30,6 +30,7 @@ BFS는 큐를 사용한다.
 숫자 개수 N을 입력받고 정렬하라
 
 ## 1-1.내가 푼 답
+
 ```python
 n = int(input())
 array = []
@@ -60,7 +61,9 @@ for i in range(array):
 
 ## 2.성적이 낮은 순서로 출력
 N명의 학생 정보가 주어졌을 때 성적이 낮은 순으로 학생의 이름을 출력
+
 ## 2-1.내가 푼 답
+
 ```python
 n = int(input())
 array = []
@@ -76,6 +79,7 @@ for i in range(array):
 ```
 
 ## 2-2.답안 예시
+
 ```python
 n = int(input())
 

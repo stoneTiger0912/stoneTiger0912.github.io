@@ -26,7 +26,8 @@ last_modified_at: 2022-08-06
   1. 인접행렬: 2차원 배열로 그래프의 연결 관계를 표현
   2. 인접리스트: 리스트로 그래프의 연결 관계를 표현(그래프간의 비용을 의미)
 0이 1과 7만큼 연결되어있고 2와는 5만큼 연결되어있다고 하면
-- 인접리스트의 경우
+- 인접리스트의 경우  
+
 ```python
 graph[[] for _ in range(2)]
 
@@ -50,6 +51,7 @@ NxM의 얼음틀이 있는데 구멍이 뚫린부분이 0 칸막이부분은 1�
 상하좌우가 붙어있으면 연결되어있다고 할때 생성되는 총 아이스크림의 개수를 구하라.
 
 ## 1-1.내가 푼 답(못풀었음)
+
 ```python
 n, m = map(int, input().split())
 
@@ -58,6 +60,7 @@ ice = [list(map(int, input().split())) _ in range(n)]
 ```
 
 ## 1-2.답안 예시
+
 ```python
 n, m = map(int, input().split())
 
@@ -98,6 +101,7 @@ print(result)
 NxM크기의 미로가 있다.  
 괴물이 있는곳은 0 없는 곳을 1로 할경우 탈출 하기 위한 최소칸의 미로 칸의 개수를 구하라.
 ## 2-1.내가 푼 답
+
 ```python
 from collections import deque
 
@@ -126,6 +130,7 @@ bfs()
 print(maze[n-1])
 ```
 ## 2-2.답안 예시
+
 ```python
 from collections import deque
 

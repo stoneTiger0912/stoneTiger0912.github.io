@@ -36,6 +36,8 @@ last_modified_at: 2022-08-11
 - 각 노드에 대한 최단 거리 정보를 항상 1차원 리스트에 저장하며 계속 갱신한다.
 - 다익스트라 알고리즘 구현 방법
   1. 구현하기 쉽지만 느리게 동작
+
+
   ```python
     import sys
     input = sys.stdin.readline
@@ -99,7 +101,8 @@ last_modified_at: 2022-08-11
 
 
   ```
-  2. 구현하기 어렵지만 빠르게 동작 
+
+  1. 구현하기 어렵지만 빠르게 동작 
     ```python
     import heapq
     import sys
@@ -147,12 +150,14 @@ last_modified_at: 2022-08-11
         else:
             print(distance[i])
     ```
+
 - 2번이 1번보다 O(ElogN)으로 더 빠르다.
 
 # 폴로이드 워셜 알고리즘
 - 모든 지점에서 다른 모든 지점 까지의 최단 경로를 구하는 경우
 - 다이나믹 프로그래밍
 - Dab = min(Dab, Dak+Dkb)
+
 ```python
 INF = int(1e9)
 
@@ -183,6 +188,7 @@ for a in range(1, n + 1):
             print(graph[a][b], end=" ")
     print()
 ```
+
 # 문제
 
 ## 1.미래도시
@@ -191,6 +197,7 @@ for a in range(1, n + 1):
 중간에 k번째 회사도 방문해야하는데 1번에서 k번 x번으로 순서대로 이동하는 최소시간을 계산하라.  
 
 ## 1-1.내가 푼 답(못풀었음)
+
 ```python
 ```
 
@@ -243,6 +250,7 @@ N개의 도시가 있는데 각 도시는 다른 도시로 메세지를 보낼 �
 c도시에서 다른 모든 도시로 최대한 많은 도시로 보내려고할때 받는 도시의 개수와 모든 도시로 보낼때 걸린 시간을 구하라.
 
 ## 2-1.내가 푼 답(못풀었음)
+
 ```python
 import heapq
 import sys
@@ -271,6 +279,7 @@ for k in range(1, n+1):
 ```
   
 ## 2-2.답안 예시
+
 ```python
 import heapq
 import sys

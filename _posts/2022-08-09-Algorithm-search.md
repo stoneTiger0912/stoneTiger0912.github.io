@@ -26,6 +26,7 @@ last_modified_at: 2022-08-09
 - 찾으려는 데이터와 중간 데이터를 비교하여 원하는 데이터를 찾는게 이진 탐색 과정이다.
 - 탐색 범위가 매우 큰 상황(1000만 단위 이상의 값)이면 이진탐색과 같이 O(logN)의 속도를 생각해야한다.
 - 탐색 범위가 매우 크므로 빠르게 입력 받기 위해서는 다음을 사용한다.
+
   ```python
   import sys
 
@@ -36,6 +37,7 @@ last_modified_at: 2022-08-09
 
 ## 이진 탐색 알고리즘을 짜는 예시
 1. 재귀 함수로 짜는 경우
+
 ```python
 def binary_search(array, target, start, end):
     if start > end:
@@ -60,7 +62,9 @@ else:
     print(result + 1)
 
 ```
-2. 반복문으로 구현 하는 경우
+
+1. 반복문으로 구현 하는 경우
+
 ```python
 def binary_search(array, target, start, end):
     while start <= end:
@@ -104,6 +108,7 @@ else:
 가게안에 모든 부품이 있는지 확인하라.
 
 ## 1-1.내가 푼 답
+
 ```python
 import sys
 
@@ -142,6 +147,7 @@ for request_item in request_items:
 ```
 
 ## 1-2.답안 예시(반복문 사용)
+
 ```python
 def binary_search(array, target, start, end):
     while start <= end:
@@ -182,6 +188,7 @@ for i in x:
 이때 손님이 M을 요청할 때 적어도 잘린 떡이 M이 되려면 절단기의 높이의 최대 길이를 구하라.  
 
 ## 2-1.내가 푼 답(못풀음)
+
 ```python
 import sys
 
@@ -208,6 +215,7 @@ binary_search(array, m, 0, array[-1] + 1)
 ```
   
 ## 2-2.답안 예시
+
 ```python
 n, m = list(map(int, input().split()))
 

@@ -22,7 +22,8 @@ last_modified_at: 2022-05-16
 동전이 500원, 100원, 50원, 10원이 무한히 존재 할 경우 손님에게 거슬러 줘야 할 돈이 N원일 때 
 거슬러야 할 동전의 최소 개수를 구하는 문제가 그리디 알고리즘의 대표적인 문제이다.  
 
-이문제의 해결 방법은 가장 큰 단위의 돈부터 거스르는 것이다.
+이문제의 해결 방법은 가장 큰 단위의 돈부터 거스르는 것이다.  
+
 ```python
 n = int(input())
 count = 0
@@ -45,6 +46,7 @@ print(count)
 단 서로 다른 인덱스에 같은 수가 있을 경우 따로 할 수 있다.  
 
 ## 1-1.내가 푼 답
+
 ```python
 n, m, k = map(int, input().split())
 num_list = list(map(int,input().split()))
@@ -62,6 +64,7 @@ print(result)
 ```
 
 ## 1-2.답안 예시
+
 ```python
 n, m, k = map(int, input().split())
 
@@ -101,6 +104,7 @@ N X M의 카드가 놓여 있는데 N은 행 M은 열을 의미
 위 행위에서 가장 큰수를 고를 프로그램을 만들어라
 
 ## 2-1.내가 푼 답
+
 ```python
 n, m = map(int, input().split())
 
@@ -141,6 +145,7 @@ n 에서 1을 뺀.
 n 에서 k로 나눈다
 
 ## 3-1.내가 푼 답
+
 ```python
 n, k = map(int, input().split())
 count = 0
@@ -155,7 +160,9 @@ while n != 1:
     
 print(count)
 ```
+
 ## 3-2.답안 예시
+
 ```python
 n, k = map(int, input().split())
 result = 0

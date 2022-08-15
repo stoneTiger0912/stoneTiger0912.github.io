@@ -8,3 +8,13 @@ main:
 #    url: /tags/
 #  - title: "Archive"
 #    url: /year-archive/
+
+sidebar-category:
+  - title: "카테고리"
+    children:
+      - title: "블로그"
+        url: "/blog"
+      - title: "알고리즘"
+        url:  "/algorithm"
+      - title: "자바"
+        url:  "/java"

@@ -35,6 +35,7 @@ last_modified_at: 2022-08-05
 정수 N이 입력되면 0시 0분 0초 부터 N시 59분 59초까지의 모든 시각중에 3이 하나라도 포함되는 경우의 수를 구하라.
 
 ## 1-1.내가 푼 답
+
 ```python
 n = int(input())
 count = 0
@@ -52,6 +53,7 @@ print(count)
 ```
 
 ## 1-2.답안 예시
+
 ```python
 h = int(input())
 
@@ -73,6 +75,7 @@ print(count)
 나이트의 좌표가 주어졌을 때 나이트가 이동 할 수 있는 경우의 수를 구하라.
 
 ## 2-1.내가 푼 답
+
 ```python
 point = input()
 point_x = int(ord(point[0])) - int(ord('a')) + 1
@@ -92,6 +95,7 @@ print(count)
 
 ```
 ## 2-2.답안 예시
+
 ```python
 input_data = input()
 row = int(input_data[1])
@@ -120,7 +124,9 @@ ord() --> 아스키 코드를 10진법으로 바꾼다.
 - 왼쪽 방향이 가보지 않은 칸이면 왼쪽으로 회전후 왼쪽칸으로 전진, 만약 왼쪽방향으로 갈 수 없으면 왼쪽으로 회전
 - 만약 4칸이 모두 가본 칸이나 바다로 이루어져있으면 바라보는 방향을 유지하고 갈 수 없으면 움직임을 멈춘다.
 - 첫째줄에 n, m 둘째줄에 캐릭위치(a, b) 바라보는 방향 d 육지 바다 설정
+
 ## 3-1.내가 푼 답(틀림)
+
 ```python
 n, m = map(int, input().split())
 A, B, d = mpa(int, input().split())
@@ -152,7 +158,9 @@ while True:
                 break
 print(result)
 ```
+
 ## 3-2.답안 예시
+
 ```python
 n, k = map(int, input().split())
 
