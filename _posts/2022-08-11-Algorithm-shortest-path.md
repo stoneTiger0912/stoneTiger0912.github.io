@@ -38,7 +38,7 @@ last_modified_at: 2022-08-11
   1. 구현하기 쉽지만 느리게 동작
 
 
-  ```python
+```python
     import sys
     input = sys.stdin.readline
     INF = int(1e9)
@@ -100,10 +100,11 @@ last_modified_at: 2022-08-11
             print(distance[i])
 
 
-  ```
+```
 
   1. 구현하기 어렵지만 빠르게 동작 
-    ```python
+
+```python
     import heapq
     import sys
     input = sys.stdin.readline
@@ -149,7 +150,7 @@ last_modified_at: 2022-08-11
         
         else:
             print(distance[i])
-    ```
+```
 
 - 2번이 1번보다 O(ElogN)으로 더 빠르다.
 
