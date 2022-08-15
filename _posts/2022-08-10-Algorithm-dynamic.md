@@ -1,5 +1,5 @@
 ---
-title:  "[Algorithm] 알고리즘 정리(5)- 다이나믹 프로그래밍"
+title:  "[Algorithm] 알고리즘 정리(6)- 다이나믹 프로그래밍"
 excerpt: "코딩 테스트 대비 알고리즘을 정리 하는 글"
 
 categories:
