@@ -3,7 +3,7 @@ title:  "[Algorithm] 알고리즘 정리(4)- 정렬 알고리즘"
 excerpt: "코딩 테스트 대비 알고리즘을 정리 하는 글"
 
 categories:
-  - Algorithm
+  - algorithm
 tags:
   - [Blog, algorithm, python, sorting_algorithm]
 

@@ -3,7 +3,7 @@ title:  "[Java] 모던 자바 인 액션"
 excerpt: "자바 8,9,10의 람다, 스트림, 함수형, 리엑티브 프로그래밍등 새로워진 자바를 요약하는 포스팅"
 
 categories:
-  - Java
+  - java
 tags:
   - [Blog, java, lambda, stream]
 
