@@ -1,5 +1,5 @@
 ---
-title:  "[Algorithm] 알고리즘 정리(10)- 그리디 알고리즘 기출 문제"
+title:  "[Algorithm] 알고리즘 정리(10)- 그리디 알고리즘 기출"
 excerpt: "코딩 테스트 대비 알고리즘을 정리 하는 글"
 
 categories:
