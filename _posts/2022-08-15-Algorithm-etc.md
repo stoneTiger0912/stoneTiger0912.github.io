@@ -45,6 +45,7 @@ array = [True for _ in range(n + 1)]
 
 for i in range(2,int(math.sqrt(n)) + 1):
     if array[i] == True:
+        #j = i
         j = 2
         while i * j <= n:
             array[i * j] = False
@@ -285,6 +286,7 @@ for password in combinations(array, l):
 
     if count >= 1 and count <= l - 2:
         print(''.join(password))
+        print(password, end='')
 ```
 
 ## 2-3.답안 예시와 내가 푼 답의 차이점
