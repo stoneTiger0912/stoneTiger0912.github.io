@@ -412,7 +412,6 @@ for _ in range(m):
 각 분리된 마을을 최소한으로 길을 만들려고 한다. 
 
 ## 2-1.내가 푼 답(못풀었음)
-
 ```python
 def find_parent(parent, x):
     if parent[x] != x:
@@ -453,8 +452,9 @@ for edge in edges:
     if find_parent(parent, a) != find_parent(parent, b):
         union_parent(parent, a, b)
         result += cost
+        last = cost
         
-print(result)
+print(result - last)
 ```
   
 ## 2-2.답안 예시

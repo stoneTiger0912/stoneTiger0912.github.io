@@ -200,6 +200,7 @@ for a in range(1, n + 1):
 ## 1-1.내가 푼 답(못풀었음)
 
 ```python
+
 ```
 
 ## 1-2.답안 예시
@@ -284,7 +285,6 @@ for k in range(1, n+1):
 ```python
 import heapq
 import sys
-from turtle import distance
 
 INF = int(1e9)
 input = sys.stdin.readline
@@ -336,3 +336,4 @@ print(count - 1, max_distance)
 
 ## 2-3.답안 예시와 내가 푼 답의 차이점
 알고리즘들을 안보고도 쓸 수 있게 연습을 해야겠다.  
+워셜 알고리즘은 시간이 많이 걸리고 다익스트라는 시간이 적게 걸리는 것을 생각해야한다.  
