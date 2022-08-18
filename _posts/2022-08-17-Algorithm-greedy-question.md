@@ -11,7 +11,7 @@ toc: true
 toc_sticky: true
  
 date: 2022-08-17
-last_modified_at: 2022-08-17
+last_modified_at: 2022-08-18
 ---
 
 # 문제
@@ -164,3 +164,128 @@ for i in range(1, sum(coin_list) + 1):
 ## 4-3.고찰
 처음에 접근한 것은 동전 총 합의 범위를 가지는 반복문으로 1씩 줄어들면서 True인 경우 거기서 동전들을 각각 빼서 하는 방법으로 했는데 풀어보니까 이렇게 하면 동전의 개수를 신경을 쓰지않고 무한으로 사용 할 수 있다는 문제점을 발견했다.  
 조금 더 문제를 정확하게 보는 자세를 가져야겠다.  
+
+## 5.볼링공 구하기
+A, B가 볼링을 치고있다.  
+볼링공이 N개가 있는데 각 볼링공마다 무게가 있고 공의 번호가 1번부터 순서대로 부여된다.  
+같은 무게여도 서로다른 경우로 간주된다. 무게는 M까지 존재한다.  
+A, B가 서로 무게가 다른 볼링공을 구하는 경우의 수를 구하라.
+
+## 5-1.내가 푼 답
+
+```python
+import sys
+
+n, m = map(int, input().split())
+
+weight_list = list(map(int, sys.stdin.readline().split()))
+
+weight_list.sort(reverse=True)
+
+count = 0
+
+for i in range(n):
+    for j in range(i, n):
+        if weight_list[i] == weight_list[j]:
+            continue
+        else:
+            count += 1
+
+print(count)
+```
+  
+## 5-2.다른 풀이
+
+```python
+
+```
+
+## 5-3.고찰
+
+
+## 6.무지의 먹방 라이브
+회전판에 N개의 음식이 있다. 각 음식에는 1부터 N까지 번호가 존재한다.  
+각 음식을 섭취하는 데 일정시간이 소요된다.  
+1. 1번 부터 먹고 회전판이 번호가 증가하는 순서대로 음식을 먹는다.
+2. 마지막 번호를 먹으면 다시 1번 음식을 먹는다.
+3. 음식은 1초만 먹고 다음 음식을 먹는다.
+4. 먹방 시작 후 k초 후에 네트워크 장애로 방송이 중단되었다.
+5. 네트워크 장애가 발생한 시간이 k초가 존재 할 때 몇 번 음식부터 다시 먹는지 확인하라.
+6. 더 쉅치해야 할 음식이 없다면 -1을 반환하면 된다. 
+
+
+## 6-1.내가 푼 답(런타임 에러)
+
+```python
+from collections import deque
+
+def solution(food_times, k):
+    q = deque()
+    for i in range(len(food_times)):
+        q.append([food_times[i], i + 1])
+    
+
+    for i in range(1, k + 1):
+        food = q.popleft()
+        print(food)
+        food[0] -= 1
+        if food[0] == 0:
+            continue
+        else:
+            q.append(food)
+
+        if i == k:
+            break
+    last = q.popleft()
+
+    if last == []:
+        answer = -1
+    else:
+        answer = last[1]
+    return answer
+
+foods_times = list(map(int, input().split()))
+
+k = int(input())
+
+result = solution(foods_times, k)
+print(result)
+```
+  
+## 6-2.다른 풀이
+
+```python
+import heapq
+
+
+def solution(food_times, k):
+    if sum(food_times) <= k:
+        return -1
+
+    q = []
+    for i in range(len(food_times)):
+        heapq.heappush(q, (food_times[i], i + 1))
+
+    sum_value = 0
+    previous = 0
+
+    length = len(food_times)
+
+    while sum_value + ((q[0][0] - previous) * length) <= k:
+        now = heapq.heappop(q)[0]
+        sum_value += (now - previous) * length
+        length -= 1
+        previous = now
+    print(q)
+    result = sorted(q, key=lambda x: x[1])
+    # (k - sum_value) => 3 
+    # length = 2
+    # 3초 후에 선택될 데이터를 return 
+    # 0  1
+    # 2 '3'
+    # [(8,1),(6,2)]
+    return result[(k - sum_value) % length][1]
+```
+
+## 6-3.고찰
+답안은 우선순위 큐를 사용하여 큐를 크기가 큰 순서대로 한 다음에 큰 수 부터 차례로 한 것이 런타임 에러를 해결 할 수 있는 것 같다. 
