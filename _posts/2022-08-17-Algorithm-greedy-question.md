@@ -128,7 +128,7 @@ print(result)
 N개의 동전이 있다.  
 이때 N개의 동전으로 만들 수 없는 양의 정수 금액 중 최솟값을 구하라
 
-## 4-1.내가 푼 답
+## 4-1.내가 푼 답(틀림)
 
 ```python
 n = int(input())
@@ -180,7 +180,7 @@ n, m = map(int, input().split())
 
 weight_list = list(map(int, sys.stdin.readline().split()))
 
-weight_list.sort(reverse=True)
+# weight_list.sort(reverse=True)
 
 count = 0
 
@@ -197,7 +197,7 @@ print(count)
 ## 5-2.다른 풀이
 
 ```python
-
+#조합으로 풀기
 ```
 
 ## 5-3.고찰
@@ -244,12 +244,12 @@ def solution(food_times, k):
         answer = last[1]
     return answer
 
-foods_times = list(map(int, input().split()))
+# foods_times = list(map(int, input().split()))
 
-k = int(input())
+# k = int(input())
 
-result = solution(foods_times, k)
-print(result)
+# result = solution(foods_times, k)
+# print(result)
 ```
   
 ## 6-2.다른 풀이

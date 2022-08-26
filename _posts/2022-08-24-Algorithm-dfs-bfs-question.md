@@ -1,41 +1,67 @@
 ---
-title:  "[Algorithm] 알고리즘 정리(10)- 구현 알고리즘 기출"
+title:  "[Algorithm] 알고리즘 정리(10)- DFS, BFS 알고리즘 기출"
 excerpt: "코딩 테스트 대비 알고리즘을 정리 하는 글"
 
 categories:
   - algorithm
 tags:
-  - [Blog, algorithm, python, Implementation_algorithm]
+  - [Blog, algorithm, python, DFS_BFS_algorithm]
 
 toc: true
 toc_sticky: true
  
-date: 2022-08-18
-last_modified_at: 2022-08-20
+date: 2022-08-24
+last_modified_at: 2022-08-24
 ---
 
 # 문제
 
-## 1.럭키 스트레이트
-필살기를 사용하기 위해서는 캐릭터의 점수를 N이라고 할 때 자릿수를 기준으로 점수 N을 반으로 나누어 왼쪽 부분의 각 자릿수 합과 오른쪽 부분의 각 자릿수의 합을 더한 값이 동일한 상황일 때 사용가능하다.  
-현재점수가 주어졌을 때 필살기를 쓸 수 있는지 구하라.
+## 1.특정 거리의 도시 찾기
+어떤 나라에 1~N번까지 도로가 존재한다.  
+특정 도시 x로 부터 모든 도시로 도착할 수 있는 시간이 정확히 k인 도시를 구하라
 
 ## 1-1.내가 푼 답
 
 ```python
-score = list(map(int, input()))
+from collections import deque
+from turtle import distance
 
-score_size = len(score)
+n, m, k, x = map(int, input().split())
 
-score_size = score_size // 2
+map_list = [[] for _ in range(n+1)]
 
-left_score = score[0:score_size]
-right_score = score[score_size: len(score)]
+for _ in range(m):
+    a, b = map(int, input().split())
+    map_list[a].append(b)
 
-if sum(left_score) == sum(right_score):
-    print("LUCKY")
-else:
-    print("READY")
+distance = [0] * (n+1)
+visited = [False] * (n+1)
+
+q = deque()
+
+def bfs(start):
+    q.append([start])
+    distance[start] = 0
+    visited[start] = 0
+
+    result = []
+
+    while q:
+        cur = q.popleft()
+        for i in map_list[cur]:
+            if visited[i] == False:
+                visited[i] = True
+                distance[i] = distance[cur] + 1
+            
+                if distance[i] == k:
+                    result.append(i)
+
+    if len(result) == 0:
+        print(-1)
+    else:
+        result.sort()
+        for i in result:
+            print(i)
 
 ```
 
@@ -48,81 +74,192 @@ else:
 ## 1-3.고찰
 
 
-## 2.문자열 재정렬
-알파벳 대문자와 숫자로 구성된 문자열이 입력된다. 이때 모든 알파벳을 순서대로 정렬 후 그 뒤에 모든 숫자를 더한 값을 출력하라.
+## 2.연구소
+바이러스를 막기 위해 벽을 세울려고 한다.  
+연구소의 크기는 NxM이고 0은 빈칸 1은 벽 2는 바이러스이다.  
+벽을 3개를 세운뒤 바이러스가 퍼질 수 없는 곳을 안전 영역이라 할때 안전 영역의 최대값을 구하라.
 
-## 2-1.내가 푼 답
+## 2-1.내가 푼 답(틀림)
 
 ```python
-input_data = list(input())
+from itertools import combinations, count
 
-alphabet_list = []
+n, m = map(int, input().split())
+
+graph = [list(map(int, input().split())) for _ in range(m)]
+
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
+
+virus_list = []
+blank = []
+
+def dfs(map_list, x, y):
+    if x <= -1 or x >= n and y <= -1 or y >= m:
+        return False
+    
+    if map_list[x][y] == 0:
+        map_list[x][y] == 2
+        
+        for i in range(4):
+            dfs(map_list, x+dx[i], y+dy[i])
+        
+    return map_list
+
+
+
+for i in range(n):
+    for j in range(m):
+        if graph[i][j] == 2:
+            virus_list.append([i, j])
+        elif graph[i][j] == 0:
+            blank.append([i, j])
+
+blank_combination = list(combinations(blank, 3))
 
 result = 0
 
-for data in input_data:
-    if ord(data) >= ord('0') and ord(data) <= ord('9'):
-        result += int(data)
-    else:
-        alphabet_list.append(data)
+for walls in blank_combination:
+    map_list = graph
+    for wall in walls:
+        x, y = wall
+        map_list[x][y] == 1
+    
+    for virus in virus_list:
+        x, y = virus
+        map_list = dfs(map_list, x, y)
 
-alphabet_list.sort()
-for i in alphabet_list:
-    print(i, end='')
+    result = map_list.count(0) if map_list.count(0) >= result else result
+    print(result)
 print(result)
+
 ```
   
 ## 2-2.다른 풀이
 
 ```python
-[str(i) for i in range(0, 10)]
+from collections import deque
+import copy
+
+def bfs():
+    queue = deque()
+    tmp_graph = copy.deepcopy(graph)
+    for i in range(n):
+        for j in range(m):
+            if tmp_graph[i][j] == 2:
+                queue.append((i, j))
+
+    while queue:
+        x, y = queue.popleft()
+
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+
+            if nx < 0 or nx >= n or ny < 0 or ny >= m:
+                continue
+            if tmp_graph[nx][ny] == 0:
+                tmp_graph[nx][ny] = 2
+                queue.append((nx, ny))
+
+    global answer
+    cnt = 0
+
+    for i in range(n):
+        cnt += tmp_graph[i].count(0)
+
+    answer = max(answer, cnt)
+
+
+def makeWall(cnt):
+    if cnt == 3:
+        bfs()
+        return
+
+    for i in range(n):
+        for j in range(m):
+            if graph[i][j] == 0:
+                graph[i][j] = 1
+                makeWall(cnt+1)
+                graph[i][j] = 0
+
+n, m = map(int, input().split())
+graph = []
+dx = [0, 0, 1, -1]
+dy = [1, -1, 0, 0]
+
+for i in range(n):
+    graph.append(list(map(int, input().split())))
+
+answer = 0
+makeWall(0)
+print(answer)
 ```
 
 ## 2-3.고찰
 
-## 3.문자열 압축
-문자열에서 값은 값이 연속으로 나오면 그 문자의 개수를 표현하여 더 짧은 문자열을 만든다.  
-aabbaccc의 경우 2a2ba3c
+
+## 3.경쟁적 전염
+NxN크기의 시험관이 있다.  
+바이러스 종류는 1~k까지 있고 1초마다 상 하 좌 우로 움직이는데 낮은 번호의 바이러스 부터 증식한다.  
+특정칸에 바이러스가 존재할 경우 다른 바이러스가 들어갈 수 없다.
+s초가 지났을 때 (x, y)에 존재하는 바이러스의 종류를 구하라  
+만약 없다면 0을 출력
 
 
-## 3-1.내가 푼 답
+## 3-1.내가 푼 답(틀림)
 
 ```python
+from collections import deque
+
+n, k = map(int, input().split())
+
+graph = [list(map(int, input().split())) for _ in range(n)]
+
+s, x, y = map(int, input().split())
+
+
+q = deque()
+
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
+
+virus_list = [[] for _ in range(k+1)]
+
+def bfs(x, y, result):
+    for i in range(4):
+        a = x + dx[i]
+        b = y + dy[i]
+
+        if a <= -1 or a >= n or b <= -1 or b >= n:
+            return False
+        
+        if graph[a][b] == 0:
+            graph[a][b] = result
+            virus_list[result].append([a, b])
+
+for i in range(n):
+    for j in range(n):
+        tmp = graph[i][j]
+        virus_list[tmp].append([i, j])
+
+for _ in range(1, s+1):
+    for i in range(1, k+1):
+        while virus_list[i]:
+            x, y = virus_list[i].pop()
+            bfs(x, y, i)
+
+print(graph[x-1][y-1])
 ```
   
 ## 3-2.다른 풀이
 
 ```python
-def solution(s):
-    answer = s[:]
-    # le: 압축할 길이
-    for le in range(1,len(s)//2+1):
-        result = ''
-        cnt = 1
-        
-        # 현재 문자열과 다음 문자열을 비교해서 
-        for st in range(0,len(s),le):
-        
-            # 같으면 cnt만 증가
-            if s[st:st+le]==s[st+le:st+2*le]:
-                cnt += 1
-                
-            # 다르면 현재까지 압축한 결과 붙이기
-            else:
-                if cnt>1:
-                    result += (str(cnt)+s[st:st+le])
-                else:
-                    result += s[st:st+le]
-                cnt = 1
-                
-        if len(result)<len(answer):
-            answer = result[:]
-    
-    return len(answer)
+
 ```
 
 ## 3-3.고찰
-반복문을 할 때 3번째 변수로 le값을 넣어준다는 생각을 하지 못하였고 그 부분이 막히면서 슬라이싱을 하기 힘들었다. 그 부분이 부족했다.
+
 
 ## 4.자물쇠와 열쇠
 자물쇠가 있는데 한칸이 1x1인 NxN크기의 정사각형이고 열쇠는 MxM크기의 정사각형이다
