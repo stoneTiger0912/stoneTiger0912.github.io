@@ -1,5 +1,5 @@
 ---
-title:  "[Algorithm] 알고리즘 정리(10)- DFS, BFS 알고리즘 기출"
+title:  "[Algorithm] 알고리즘 정리(12)- DFS, BFS 알고리즘 기출"
 excerpt: "코딩 테스트 대비 알고리즘을 정리 하는 글"
 
 categories:
@@ -11,7 +11,7 @@ toc: true
 toc_sticky: true
  
 date: 2022-08-24
-last_modified_at: 2022-08-24
+last_modified_at: 2022-08-28
 ---
 
 # 문제
@@ -261,203 +261,184 @@ print(graph[x-1][y-1])
 ## 3-3.고찰
 
 
-## 4.자물쇠와 열쇠
-자물쇠가 있는데 한칸이 1x1인 NxN크기의 정사각형이고 열쇠는 MxM크기의 정사각형이다
-자물쇠에는 홈이 파여있고 열쇠또한 홈과 돌기가 있다.  
-열쇠의 돌기부분에 자물쇠가 딱 맞게 채워지면 열리는 방식이다. 
-자물쇠의 모든 홈을 채워 비어있는 곳이 없어야 자물쇠를 열 수 있다.  
-열쇠를 나타내는 2차원 배열 key와 2차원 배열 lock가 있을 때
-열쇠로 자물쇠를 열 수 있으면 true 없으면 false를 return 하도록 한다.
+## 4.괄호 변환
+(, )의 개수가 같다면 균형잡힌 문자열이라고 한다.  
+(, )의 짝이 모두 맞다면 균형잡힌 문자열이라고 한다.  
 
-## 4-1.내가 푼 답
+
+## 4-1.내가 푼 답(틀림)
 
 ```python
+balance = []
+u = []
+v = []
 
+def check(p):
+    stack = []
+
+    for i in p:
+        if i == '(':
+            stack.append(i)
+        elif i == ')':
+            if stack.top() == '(':
+                stack.pop()
+            else:
+                break
+    else:
+        return True
+    
+    return False
+
+
+def sep(p):
+    answer = ''
+    stack = []
+
+    check(p)
+    
+    if p.count('(') == p.count(')'):
+        for i in range(p):
+            balance.append(p[i])
+            if balance.count('(') == balance.count(')'):
+                u = p[:i + 1]
+                v = p[i + 1:]
+                return u, v
+        
+
+def reverse(strings):
+    r = {"(":")", ")": "("}
+    return [r[s] for s in strings]
+    
+    
+
+def solution(p):
+    answer = ''
+    #균형
+
+    if p == '':
+        return p
+    
+    if check(p):
+        return p
+
+    u = sep(p)[0]
+    v = sep(p)[1]
+
+    if check(u):
+        u+solution(v)
+    
+    else:
+        answer+='('
+        answer+=solution(v)
+        answer+=')'
+        u=u[1:-1]
+        for i in reverse(u):
+            answer+=i
+        return answer
+
+    return answer
 ```
   
 ## 4-2.다른 풀이
 
 ```python
-#회전
-def rotate(k):
-    n=len(k)
-    result=[[0]*n for _ in range(n)]
-    for i in range(n):
-        for j in range(n):
-            result[j][n-i-1]=k[i][j]
-    return result
-    
-#확인
-def check(l):
-    n=len(l)//3
-    #new_lock의 중간 부분이 모두 1인지 확인
-    for i in range(n,n*2):
-        for j in range(n,n*2):
-            if l[i][j]!=1:
-                return False
-    return True
-                
 
-def solution(key, lock):
-    answer = False
-    n=len(lock)
-    m=len(key)
+def reverse(strings):
+    r = {"(":")", ")": "("}
+    return [r[s] for s in strings]
     
-    new_lock = [[0]*(n*3) for _ in range(n*3)]
-    #세배 확장된 lock을 만든다.
-    for i in range(n):
-        for j in range(n):
-            new_lock[i+n][j+n]=lock[i][j]
-            
-    #매 회전
-    for r in range(4):
-        key=rotate(key)
-        #매 이동
-        for x in range(1,n*2):
-            for y in range(1,n*2):
-            
-            	#열쇠를 넣어준다.
-                for i in range(m):
-                    for j in range(m):
-                    	#lock에 key를 더해줌
-                        new_lock[x+i][y+j]+=key[i][j]
-                
-                #해당 열쇠가 맞는지 검사
-                if check(new_lock)==True:
-                    return True
-                    
-                #맞지 않는다면 되돌린다(열쇠를 뺀다)
-                for i in range(m):
-                    for j in range(m):
-                        new_lock[x+i][y+j]-=key[i][j]
-    
-    return False
+else:
+        answer+='('
+        answer+=solution(v)
+        answer+=')'
+    u=u[1:-1]
+    for i in reverse(u):
+        answer+=i
+    return answer
+
 ```
 
 ## 4-3.고찰
-자물쇠를 3배로 확장한다음에 열쇠를 회전하고 움직이면서 거기에 맞는 부분이 있는지 확인하는 완전 탐색으로 푸는 것 같다.
+저 두 부분은 구글링한 것이다. reverse함수로 key value를 썻다는 것이 참신했고 문제가 이해가 힘들었긴했는데 답을 보고 문제를 보니 그대로 하면 되는 것을 조금 섬세하게 읽어야 겠다.
 
-## 5.뱀
-뱀이 사과를 먹으면 뱀 길이가 늘어나는데 벽이나 자기자신의 몸과 부딫히면 게임이 끝난다.  
-게임은 NxN위에서 하고 뱀이 길이는 처음에 1이다. 뱀은 맨위좌측부터 시작한다.  
-뱀은 다음과 같이 이동한다.
-1. 뱀은 몸길이늘 늘려 머리를 다음칸에 이동한다
-2. 만약 사과가 있다면 꼬리는 그대로다.
-3. 사과가 없다면 몸길이를 줄인다.
+## 5.연산자 끼워 넣기
+n개의 수로 이루어진 수열 A1,A2...An이 주어진다.  
+또 수와 수 사이에 끼워 넣을 수 있는 n-1개의 연산자가 주어진다.  
+식의 계산은 연산자 우선순위를 무시하고 진행한다.  
+나눗셈은 정수 나눗셈의 몫만 취한다.  
+음수를 양수로 나눌경우 양수로 바꾼뒤 몫을 취하고 음수로 바꾼다.
+식의 최대와 최소를 구하라.
 
-
-## 5-1.내가 푼 답(못 풀었음)
+## 5-1.내가 푼 답(못품)
 
 ```python
+from collections import deque
+
+q = deque()
+
+def cal(num_list, arith_list):
+    n1 = num_list.popleft()
+    n2 = num_list.popleft()
+
+    for i in range(4):
+        if arith_list[i] != 0:
+
 n = int(input())
 
-map_list = [[0] * n for _ in range(n)]
+num_list = list(map(int, input().split()))
 
-apple = int(input())
+arith_list = list(map(int, input().split()))
 
-for _ in range(apple):
-    x, y = map(int, input().split())
-    map_list[x][y] = 1
 
-moving_snake = int(input())
-move_list = []
 
-for _ in range(moving_snake):
-    t, dir = input().split()
-    move_list.append((t, dir))
-
-snake = [[0, 1]]
-
-dir = ([0, 1], [1, 0], [0, -1], [-1, 0])
-
-cur_dir = dir[0]
-
-for moving in move_list:
-    t = int(moving[0])
-    for i in t:
-        head = snake[-1]
-        head[0] = head[0] + cur_dir[0]
-        head[1] = head[1] + cur_dir[1]
-        if map_list[head[0]][head[1]] == 0:
-            snake.pop()
-        snake.append(head)
-    dir = moving[1]
-
+cal(num_list, arith_list)
 ```
   
 ## 5-2.다른 풀이
 
 ```python
-from collections import deque
+# 백트래킹 (Python3 통과, PyPy3도 통과)
+import sys
 
-n = int(input())
-k = int(input())
+input = sys.stdin.readline
+N = int(input())
+num = list(map(int, input().split()))
+op = list(map(int, input().split()))  # +, -, *, //
 
-graph = [[0] * n for _ in range(n)]
-dx = [0, 1, 0, -1]
-dy = [1, 0, -1, 0]
-
-for i in range(k):
-    a, b = map(int, input().split())
-    graph[a - 1][b - 1] = 2
-
-l = int(input())
-dirDict = dict()
-queue = deque()
-queue.append((0, 0))
-
-for i in range(l):
-    x, c = input().split()
-    dirDict[int(x)] = c
-
-x, y = 0, 0
-graph[x][y] = 1
-cnt = 0
-direction = 0
-
-def turn(alpha):
-    global direction
-    if alpha == 'L':
-        direction = (direction - 1) % 4
-    else:
-        direction = (direction + 1) % 4
+maximum = -1e9
+minimum = 1e9
 
 
-while True:
-    cnt += 1
-    x += dx[direction]
-    y += dy[direction]
+def dfs(depth, total, plus, minus, multiply, divide):
+    global maximum, minimum
+    if depth == N:
+        maximum = max(total, maximum)
+        minimum = min(total, minimum)
+        return
 
-    if x < 0 or x >= n or y < 0 or y >= n:
-        break
+    if plus:
+        dfs(depth + 1, total + num[depth], plus - 1, minus, multiply, divide)
+    if minus:
+        dfs(depth + 1, total - num[depth], plus, minus - 1, multiply, divide)
+    if multiply:
+        dfs(depth + 1, total * num[depth], plus, minus, multiply - 1, divide)
+    if divide:
+        dfs(depth + 1, int(total / num[depth]), plus, minus, multiply, divide - 1)
 
-    if graph[x][y] == 2:
-        graph[x][y] = 1
-        queue.append((x, y))
-        if cnt in dirDict:
-            turn(dirDict[cnt])
 
-    elif graph[x][y] == 0:
-        graph[x][y] = 1
-        queue.append((x, y))
-        tx, ty = queue.popleft()
-        graph[tx][ty] = 0
-        if cnt in dirDict:
-            turn(dirDict[cnt])
-
-    else:
-        break
-
-print(cnt)
+dfs(1, num[0], op[0], op[1], op[2], op[3])
+print(maximum)
+print(minimum)
 ```
 
 ## 5-3.고찰
-뱀을 큐에 넣는 것이 핵심이다. 그리고 내가 푼 답은 뱀을 따로 리스트에 넣었는데 맵에 1로 표현 하는 것이 더 나은 것 같다.
+dfs와 순열을 이용하는 방법이 있다.  
+depth로 판별하는 방식을 알게되었다.
 
-## 6.기둥과 보 설치
-2차원 가상 벽면에 기둥과 보를 설치한다.
-1. 기둥은 바닥위에 있거나 보의 한쪽 끝부분 위에 있거나 다른 기둥 위에 있어야 한다.
-2. 보는 한쪽 끝부분이 기둥 위에 있거나 또는 양쪽 끝부분이 다른 보와 동시에 연결되어있어야한다.
+## 6.감시 피하기
+NxN인 복도가 있다. 특정 위치에는 선생님, 학생, 장애물이 있다.  
+각 선생님은 자신의 위치에 상하좌우로 감시를 진행한다.  
+복도에 장애물이 있으면 장애물 뒷편을 못본다.  
 
 ## 6-1.내가 푼 답
 
@@ -468,92 +449,192 @@ print(cnt)
 ## 6-2.다른 풀이
 
 ```python
-# 파이썬
-def impossible(result):
-    COL, ROW = 0, 1
-    for x, y, a in result:
-        if a == COL: # 기둥일 때
-            if y != 0 and (x, y-1, COL) not in result and \
-        (x-1, y, ROW) not in result and (x, y, ROW) not in result:
-                return True
-        else: # 보일 때
-            if (x, y-1, COL) not in result and (x+1, y-1, COL) not in result and \
-        not ((x-1, y, ROW) in result and (x+1, y, ROW) in result):
-                return True
-    return False
+n = int(input())
+graph = []
+teacher = 0
+for _ in range(n):
+  data = list(input().strip().split(' '))
+  teacher += data.count('T')
+  graph.append(data)
 
-def solution(n, build_frame):
-    result = set()
-    
-    for x, y, a, build in build_frame:
-        item = (x, y, a)
-        if build: # 추가일 때
-            result.add(item)
-            if impossible(result):
-                result.remove(item)
-        elif item in result: # 삭제할 때
-            result.remove(item)
-            if impossible(result):
-                result.add(item)
-    answer = map(list, result)
-    
-    return sorted(answer, key = lambda x : (x[0], x[1], x[2]))
+# 상,하,좌,우 움직이는 배열
+dx = [1,-1, 0, 0]
+dy = [0, 0, 1, -1]
+
+# 직선 방향 확인 함수
+def check_S(x,y):
+  for i in range(4):
+    nx = x + dx[i]
+    ny = y + dy[i]
+    # 직선 방향으로 확인
+    while 0<= nx < n and 0<= ny < n and graph[nx][ny] !='O':
+      if graph[nx][ny] == 'S':
+        # 감시가능하다
+        return True            
+      else:        
+        # T 나 X으면 계속 탐색
+        nx += dx[i]
+        ny += dy[i]
+  # 감시 불가능하다
+  return False
+
+def solution(count):
+  global answer
+  if count == 3:
+    cnt = 0
+    for i in range(n):
+      for j in range(n):
+        if graph[i][j] == 'T':
+          if not check_S(i,j):          
+            cnt+=1
+    # 모든 선생이 감시가 불가능할 때
+    if cnt == teacher:
+      answer = True
+    return
+
+  for i in range(n):
+    for j in range(n):
+      if graph[i][j] == 'X':
+        graph[i][j] = 'O'
+        count +=1
+        solution(count)
+        graph[i][j] = 'X'
+        count -=1
+
+answer = False
+solution(0)
+if answer:
+  print('YES')
+else:
+  print('NO')
+
 ```
 
-## 4-3.고찰
-함수 하나를 쓰는게 효율적인 면에서 좋다
+## 6-3.고찰
 
-## 7.치킨 배달
-크기가 NxN인 도시가 있다. 도시의 칸은 (r, c)같은 형태이다.
-0은 빈칸 1은 집 2는 치킨집이라고 할때 치킨집은 최대 m개까지 고를 때 도시의 치킨거리가 가장 적을지 구하라
+## 7.인구이동
+NxN인 땅이 있다.
+r행 c열에 있는 나라는 A[r][c]명이 산다.
+1. 국경선을 공유하는 두 나라의 차이가 L명이상 R명 이하면 국경선을 하루동안 안연다.
+2. 국경선이 모두 열리면 인구이동이 시작된다.
+3. 국경선이 열려있으면 하루동안 연합이라고 한다.
+4. 연합을 이루는 각 칸에 인구수는 연합의 인구수/연합의 칸의 개수가 된다.
+5. 연합을 해체하고 국경선을 닫는다.
 
-## 7-1.내가 푼 답
+## 7-1.내가 푼 답(못품)
 
 ```python
-from itertools import combinations
+from curses.ascii import NL
+import math
 
-n, m = map(int, input().split())
-maps=[]
+n, l, r = map(int, input().split())
+
+graph = [list(map(int, input().split())) for _ in range(n)]
+
+visited = [[False] * n for _ in range(n)]
+
+count = 0
+union = [[0] * n for _ in range(n)]
+
 for i in range(n):
-  maps.append(list(map(int, input().split())))
+    for j in range(n):
+        union[i][j] == count
+        count += 1
 
-home=[]
-chicken=[]
-for i in range(n):
-  for j in range(n):
-    if maps[i][j]==1:
-      home.append((i,j))
-    elif maps[i][j]==2:
-      chicken.append((i,j))
 
-chicken_combinations = list(combinations(chicken,m))
-result=[0]*len(chicken_combinations)
 
-for i in home:
-  for j in range(len(chicken_combinations)):
-    a=100
-    for k in chicken_combinations[j]:
-      tmp = abs(i[0]-k[0])+abs(i[1]-k[1])
-      a=min(a, tmp)
-    result[j]+=a
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
 
-print(min(result))
+def bfs(x, y):
+    if visited[x][y] == True:
+        return False
+    else:
+        visited[x][y] == True
+
+    for i in range(4):
+        a = x + dx[i]
+        b = y + dy[i]
+
+        if a < 0 or a >= n or b < 0 or b >= n:
+            continue
+
+        if abs(graph[x][y] - graph[a][b]) >= l and abs(graph[x][y] - graph[a][b]) <= r:
+            continue
+        else:
+            union[a][b] = union[x][y]
+
+        bfs(a, b)
+
+
+bfs(0, 0)
+
 ```
   
 ## 7-2.다른 풀이
 
 ```python
+import sys
+input = sys.stdin.readline
+from collections import deque
 
+graph = []
+n,l,r = map(int,input().split())
+for _ in range(n):
+    graph.append(list(map(int,input().split())))
+
+dx = [0,0,1,-1]
+dy = [1,-1,0,0]
+def bfs(a,b):
+    q = deque()
+    temp = []
+    q.append((a,b))
+    temp.append((a,b))
+    while q:
+        x,y = q.popleft()
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+            if 0<=nx<n and 0<=ny<n and visited[nx][ny] == 0:
+                # 국경선을 공유하는 두 나라의 인구 차이가 L명 이상, R명 이하라면, 두 나라가 공유하는 국경선을 오늘 하루 동안 연다.
+                if l<=abs(graph[nx][ny]-graph[x][y])<=r:
+                    visited[nx][ny] = 1
+                    q.append((nx,ny))
+                    temp.append((nx,ny))
+    return temp
+            
+result = 0
+while 1:
+    visited = [[0] * (n+1) for _ in range(n+1)]
+    flag = 0
+    for i in range(n):
+        for j in range(n):
+            if visited[i][j] == 0:
+                visited[i][j] = 1
+                country = bfs(i,j)
+                # 위의 조건에 의해 열어야하는 국경선이 모두 열렸다면, 인구 이동을 시작한다.
+                if len(country) > 1:
+                    flag = 1
+                    # 연합을 이루고 있는 각 칸의 인구수는 (연합의 인구수) / (연합을 이루고 있는 칸의 개수)가 된다. 편의상 소수점은 버린다.
+                    number = sum([graph[x][y] for x, y in country]) // len(country)
+                    for x,y in country:
+                        graph[x][y] = number
+    # 연합을 해체하고, 모든 국경선을 닫는다.
+    if flag == 0:
+        break
+    result += 1
+print(result)
 ```
 
 ## 7-3.고찰
 
 
-## 8.외벽 점검
-내부 공사를 하는데 레스토랑의 구조는 완벽한 원 모양이고 총 n미터 이다.  
-내부 공사 도중에 점검을 확인하기 위해서 주기적으로 점검을 해야한다. 단 1시간으로 제한한다.  
-편의상 레스토랑의 정북을 0으로 하고 시계방향으로 거리를 나타낸다.  
-외벽의 길이를 n, 취약 지점의 위치가 담긴 배열 weak, 각 친구가 1시간 동안 이동할 수 있는 거리가 dist일때 친구 수의 최솟값을 구하라
+## 8.블록 이동하기
+로봇은 2x1크기로 NxN인 지도에 로봇을 움직여 (n, n)으로 이동할 수 있도록 한다.  
+0을 빈칸, 1을 벽이라고 한다. 
+(1, 1)에서 (n, n)으로 이동하는 최소 시간을 구하라.  
+로봇은 90도씩 회전이 가능하다. 대신 축이 되는 곳에 벽이 있으면 안된다.  
+
 
 
 ## 8-1.내가 푼 답
@@ -565,36 +646,56 @@ print(min(result))
 ## 8-2.다른 풀이
 
 ```python
-from itertools import permutations
+# 파이썬
+from collections import deque
 
-def solution(n, weak, dist):
-    # 길이를 2배로 늘려서 원형 -> 일자 형태
-    length = len(weak)
-    for i in range(length):
-        weak.append(weak[i] + n)
+def can_move(cur1, cur2, new_board):
+    Y, X = 0, 1
+    cand = []
+    # 평행이동
+    DELTAS = [(-1, 0), (1, 0), (0, 1), (0, -1)]
+    for dy, dx in DELTAS:
+        nxt1 = (cur1[Y] + dy, cur1[X] + dx)
+        nxt2 = (cur2[Y] + dy, cur2[X] + dx)
+        if new_board[nxt1[Y]][nxt1[X]] == 0 and new_board[nxt2[Y]][nxt2[X]] == 0:
+            cand.append((nxt1, nxt2))
+    # 회전
+    if cur1[Y] == cur2[Y]: # 가로방향 일 때
+        UP, DOWN = -1, 1
+        for d in [UP, DOWN]:
+            if new_board[cur1[Y]+d][cur1[X]] == 0 and new_board[cur2[Y]+d][cur2[X]] == 0:
+                cand.append((cur1, (cur1[Y]+d, cur1[X])))
+                cand.append((cur2, (cur2[Y]+d, cur2[X])))
+    else: # 세로 방향 일 때
+        LEFT, RIGHT = -1, 1
+        for d in [LEFT, RIGHT]:
+            if new_board[cur1[Y]][cur1[X]+d] == 0 and new_board[cur2[Y]][cur2[X]+d] == 0:
+                cand.append(((cur1[Y], cur1[X]+d), cur1))
+                cand.append(((cur2[Y], cur2[X]+d), cur2))
+                
+    return cand
 
-    answer = len(dist) + 1
-    # 0 부터 length-1 까지의 위치를 각각 시작점으로 설정
-    for start in range(length):
-        # 친구를 나열하는 모든 경우의 수 각각에 대하여 확인
-        for friends in list(permutations(dist, len(dist))):
-            count = 1 # 투입할 친구의 수
-            # 해당 친구가 점검할 수 있는 마지막 위치
-            position = weak[start] + friends[count-1]
-            # 시작점부터 모든 취약 지점을 확인
-            for index in range(start, start+length):
-                # 점검할 수 있는 위치를 벗어나는 경우
-                if position < weak[index]:
-                    count += 1 # 새로운 친구를 투입
-                    if count > len(dist): # 더 투입이 불가능하다면 종료
-                        break
-                    position = weak[index] + friends[count-1]
-            answer = min(answer, count) # 최솟값 계산
-        if answer > len(dist):
-            return -1
-    return answer
+def solution(board):
+    # board 외벽 둘러싸기
+    N = len(board)
+    new_board = [[1] * (N+2) for _ in range(N+2)]
+    for i in range(N):
+        for j in range(N):
+            new_board[i+1][j+1] = board[i][j]
+
+    # 현재 좌표 위치 큐 삽입, 확인용 set
+    que = deque([((1, 1), (1, 2), 0)])
+    confirm = set([((1, 1), (1, 2))])
+
+    while que:
+        cur1, cur2, count = que.popleft()
+        if cur1 == (N, N) or cur2 == (N, N):
+            return count
+        for nxt in can_move(cur1, cur2, new_board):
+            if nxt not in confirm:
+                que.append((*nxt, count+1))
+                confirm.add(nxt)
+
 ```
 
 ## 8-3.고찰
-컴비네이션이 자주 쓰이는 것을 알게 되었고 구현 부분의 문제들을 거의 혼자서 풀지 못했다.  
-좀더 공부좀 해야겠다.
