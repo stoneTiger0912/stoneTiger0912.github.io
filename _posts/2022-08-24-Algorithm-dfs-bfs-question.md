@@ -82,7 +82,8 @@ def bfs(start):
 ## 2-1.내가 푼 답(틀림)
 
 ```python
-from itertools import combinations, count
+from itertools import combinations
+import copy
 
 n, m = map(int, input().split())
 
@@ -98,13 +99,77 @@ def dfs(map_list, x, y):
     if x <= -1 or x >= n and y <= -1 or y >= m:
         return False
     
-    if map_list[x][y] == 0:
-        map_list[x][y] == 2
-        
-        for i in range(4):
-            dfs(map_list, x+dx[i], y+dy[i])
-        
-    return map_list
+    if map_list[x][y] == 2:
+        pass
+
+    elif map_list[x][y] == 0:
+        map_list[x][y] = 2
+
+    else:
+        return
+
+    for i in range(4):
+        dfs(map_list, x+dx[i], y+dy[i])
+
+
+for i in range(n):
+    for j in range(m):
+        if graph[i][j] == 2:
+            virus_list.append([i, j])
+        elif graph[i][j] == 0:
+            blank.append([i, j])
+
+blank_combination = list(combinations(blank, 3))
+
+result = 0
+
+for walls in blank_combination:
+    map_list = copy.deepcopy(graph)
+    for wall in walls:
+        x, y = wall
+        map_list[x][y] = 1
+    
+    for virus in virus_list:
+        x, y = virus
+        dfs(map_list, x, y)
+
+    tmp = 0
+    for i in range(n):
+        for j in range(m):
+            if map_list[i][j] == 0:
+                tmp += 1
+    
+    result = max(tmp, result)
+print(result)
+
+```
+  
+## 2-2.다른 풀이
+
+```python
+from itertools import combinations
+import copy
+
+n, m = map(int, input().split())
+
+graph = [list(map(int, input().split())) for _ in range(n)]
+
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
+
+virus_list = []
+blank = []
+
+def dfs(y,x):
+    map_list[y][x] = 2
+
+    for i in range(4):
+        ny = y+dy[i]
+        nx = x+dx[i]
+        if nx <= -1 or nx >= m or ny <= -1 or ny >= n:
+            continue
+        if map_list[ny][nx] == 0:
+            dfs(ny, nx)
 
 
 
@@ -120,80 +185,24 @@ blank_combination = list(combinations(blank, 3))
 result = 0
 
 for walls in blank_combination:
-    map_list = graph
+    map_list = copy.deepcopy(graph)
     for wall in walls:
-        x, y = wall
-        map_list[x][y] == 1
+        y, x = wall
+        map_list[y][x] = 1
     
     for virus in virus_list:
-        x, y = virus
-        map_list = dfs(map_list, x, y)
+        y, x = virus
+        dfs(y, x)
 
-    result = map_list.count(0) if map_list.count(0) >= result else result
-    print(result)
+    tmp = 0
+    for i in range(n):
+        for j in range(m):
+            if map_list[i][j] == 0:
+                tmp += 1
+    
+    result = max(tmp, result)
+
 print(result)
-
-```
-  
-## 2-2.다른 풀이
-
-```python
-from collections import deque
-import copy
-
-def bfs():
-    queue = deque()
-    tmp_graph = copy.deepcopy(graph)
-    for i in range(n):
-        for j in range(m):
-            if tmp_graph[i][j] == 2:
-                queue.append((i, j))
-
-    while queue:
-        x, y = queue.popleft()
-
-        for i in range(4):
-            nx = x + dx[i]
-            ny = y + dy[i]
-
-            if nx < 0 or nx >= n or ny < 0 or ny >= m:
-                continue
-            if tmp_graph[nx][ny] == 0:
-                tmp_graph[nx][ny] = 2
-                queue.append((nx, ny))
-
-    global answer
-    cnt = 0
-
-    for i in range(n):
-        cnt += tmp_graph[i].count(0)
-
-    answer = max(answer, cnt)
-
-
-def makeWall(cnt):
-    if cnt == 3:
-        bfs()
-        return
-
-    for i in range(n):
-        for j in range(m):
-            if graph[i][j] == 0:
-                graph[i][j] = 1
-                makeWall(cnt+1)
-                graph[i][j] = 0
-
-n, m = map(int, input().split())
-graph = []
-dx = [0, 0, 1, -1]
-dy = [1, -1, 0, 0]
-
-for i in range(n):
-    graph.append(list(map(int, input().split())))
-
-answer = 0
-makeWall(0)
-print(answer)
 ```
 
 ## 2-3.고찰
@@ -255,7 +264,7 @@ print(graph[x-1][y-1])
 ## 3-2.다른 풀이
 
 ```python
-
+#힙큐
 ```
 
 ## 3-3.고찰
@@ -433,7 +442,8 @@ print(minimum)
 
 ## 5-3.고찰
 dfs와 순열을 이용하는 방법이 있다.  
-depth로 판별하는 방식을 알게되었다.
+depth로 판별하는 방식을 알게되었다.  
+set(permutations)
 
 ## 6.감시 피하기
 NxN인 복도가 있다. 특정 위치에는 선생님, 학생, 장애물이 있다.  
@@ -512,6 +522,7 @@ else:
 
 ## 6-3.고찰
 
+
 ## 7.인구이동
 NxN인 땅이 있다.
 r행 c열에 있는 나라는 A[r][c]명이 산다.
@@ -524,8 +535,9 @@ r행 c열에 있는 나라는 A[r][c]명이 산다.
 ## 7-1.내가 푼 답(못품)
 
 ```python
-from curses.ascii import NL
 import math
+import sys
+sys.setrecursionlimit(2501)
 
 n, l, r = map(int, input().split())
 
@@ -546,7 +558,7 @@ for i in range(n):
 dx = [-1, 1, 0, 0]
 dy = [0, 0, -1, 1]
 
-def bfs(x, y):
+def dfs(x, y):
     if visited[x][y] == True:
         return False
     else:
@@ -563,8 +575,8 @@ def bfs(x, y):
             continue
         else:
             union[a][b] = union[x][y]
-
-        bfs(a, b)
+# move 함수 구현
+        dfs(a, b)
 
 
 bfs(0, 0)
@@ -640,7 +652,7 @@ print(result)
 ## 8-1.내가 푼 답
 
 ```python
-
+#visited set처리    
 ```
   
 ## 8-2.다른 풀이
