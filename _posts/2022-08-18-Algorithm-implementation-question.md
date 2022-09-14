@@ -1,5 +1,5 @@
 ---
-title:  "[Algorithm] 알고리즘 정리(10)- 구현 알고리즘 기출"
+title:  "[Algorithm] 알고리즘 정리(11)- 구현 알고리즘 기출"
 excerpt: "코딩 테스트 대비 알고리즘을 정리 하는 글"
 
 categories:

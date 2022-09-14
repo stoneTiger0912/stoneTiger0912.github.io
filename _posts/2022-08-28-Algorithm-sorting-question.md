@@ -26,6 +26,8 @@ last_modified_at: 2022-08-28
 ## 1-1.내가 푼 답
 
 ```python
+import sys
+input = sys.stdin.readline
 n = int(input())
 
 student_list = []

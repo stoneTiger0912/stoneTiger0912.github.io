@@ -68,7 +68,10 @@ else:
 ## 1-2.다른 풀이
 
 ```python
+import bisect
 
+bisect.bisect_left()
+bisect.bisect_right()#맨 오른쪽 좌표 +1
 ```
 
 ## 1-3.고찰
@@ -215,46 +218,83 @@ print(answer)
 ## 3-3.고찰
 처음 생각 했던 것은 맨 뒤랑 맨앞을 먼저 채우고 이진탐색이 된 곳을 체크해서 그 차이가 가장 작은 값을 구한다고 생각했었는데 틀린것 같다.
 
-## 4.카드 정렬하기
-카드의 수가 A,B인 카드뭉치가 있다.  
-카드들을 뭉칠때 효율적으로 뭉치는 방법을 구하라  
-예를 들어 10 20 40이 있다고 하면 10 20을 묶어서 하면 
-10+20+30+40= 100  
-10 40을 묶어서 하면
-10+40+50+20=120이 된다.  
-최소 몇번의 비교가 필요한지 구하라.
+## 4.가사 검색
+와일드카드인 ?을 사용하여 특정 키워드가 몇개 포합되어 있는지 확인하는 프로그램을 만들어라.  
+예를 들어 fro??는 front, frost. frodo등이 매치된다.  
+?는 접미사 아니면 접두사중 하나로만 이루어진다.
 
-## 4-1.내가 푼 답
+## 4-1.내가 푼 답(시간 초과)
 
 ```python
+def solution(words, queries):
+    answer = []
+    for query in queries:
+        count = 0
+        for word in words:
+            if len(query) == len(word):
+                a = query.find("?")
+                b = query.count("?")
+                if a == 0:
+                    if query[b: ] == word[b: ]:
+                        count += 1
+                        
+                else:
+                    if query[ :a] == word[ :a]:
+                        count += 1
+        answer.append(count)
+                            
+    return answer
 ```
   
 ## 4-2.다른 풀이
 
 ```python
-import heapq
-import sys
-
-N = int(input())
-card_deck = []
-for _ in range(N):
-    heapq.heappush(card_deck, int(sys.stdin.readline()))
-
-
-if len(card_deck) == 1: #1개일 경우 비교하지 않아도 된다
-    print(0)
-else:
-    answer = 0
-    while len(card_deck) > 1: #1개일 경우 비교하지 않아도 된다
-        temp_1 = heapq.heappop(card_deck) #제일 작은 덱
-        temp_2 = heapq.heappop(card_deck) #두번째로 작은 덱
-        answer += temp_1 + temp_2 #현재 비교 횟수를 더해줌
-        heapq.heappush(card_deck, temp_1 + temp_2) #더한 덱을 다시 넣어줌
+def solution(words, queries):
+    head, head_rev = {}, {}
+    wc = []
     
-    print(answer)
+    def add(head,word):
+        node = head
+        for w in word:
+            if w not in node:
+                node[w]={}
+            node= node[w]
+            if 'len' not in node:
+                node['len'] = [len_word]
+            else:
+                node['len'].append(len_word)
+        node['end']=True   
     
+    for word in words:
+        len_word = len(word)
+        add(head,word)
+        add(head_rev,word[::-1])
+        wc.append(len_word)
+        
+    def search(head, querie):
+        count=0
+        node = head
+        for q in querie:
+            if q=='?':
+                return node['len'].count(len_qu)
+            elif q not in node:
+                break
+            node = node[q]
+        return count
+
+    li=[]
+    for querie in queries:
+        len_qu = len(querie)
+        if querie[0]=='?':
+            if querie[-1]=='?': 
+                li.append(wc.count(len_qu))
+            else: 
+                li.append(search(head_rev, querie[::-1]))
+        else:
+            li.append(search(head, querie))
+    return li
 ```
 
 ## 4-3.고찰
-힙큐를 사용하면 편하게 하는 것을 알게 되었다.  
-자주 사용해야겠다.
+이진탐색을 쓰지않고 풀려고 했지만 역시 시간 초과가 났다.  
+이진탐색 트리를 사용하면 풀리는 문제이다.

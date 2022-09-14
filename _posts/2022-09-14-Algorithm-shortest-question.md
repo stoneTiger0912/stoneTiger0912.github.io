@@ -1,66 +1,56 @@
 ---
-title:  "[Algorithm] 알고리즘 정리(15)- 다이나믹 프로그래밍 기출"
+title:  "[Algorithm] 알고리즘 정리(16)- 최단경로 알고리즘 기출"
 excerpt: "코딩 테스트 대비 알고리즘을 정리 하는 글"
 
 categories:
   - algorithm
 tags:
-  - [Blog, algorithm, python, dynamic_programming]
+  - [Blog, algorithm, python, shortest_algorithm]
 
 toc: true
 toc_sticky: true
  
-date: 2022-09-03
-last_modified_at: 2022-09-03
+date: 2022-09-14
+last_modified_at: 2022-09-14
 ---
 
 # 문제
 
-## 1.금광
-NxM의 금광이 있다. 
-첫번째 줄 어디서부터 
-1. 오른쪽 위
-2. 오른쪽 
-3. 오른쪽 아래
-3가지중 하나를 사용하여 금의 최대 크기를 구하라
-
+## 1.플로이드
+n개의 도시가 존재하는데 한 도시에서 다른도시로 가는 버스가 m개가 있다.  
+모든 도시 (A, B)에 대하여 가는데 필요한 비용의 최솟값을 구하라.
 
 ## 1-1.내가 푼 답
 
 ```python
-import sys
+INF = int(1e9)
 
-input = sys.stdin.readline
+n = int(input())
+m = int(input())
 
-t = int(input())
-for _ in range(t):
-    n, m = map(int, input().split())
-    dp = [[0]* m for _ in range(n)]
+graph = [[INF] * (n+1) for _ in range(n+1)]
 
-    input_list = list((map(int, input().split())))
-    
-    map_list = []
-    
-    for i in range(0, len(input_list), m):
-       map_list.append(input_list[i: i + m])
+for a in range(1, n+1):
+    for b in range(1, n+1):
+        if a == b:
+            graph[a][b] = 0
 
-    for y in range(m):
-        for x in range(n):
-            dp[x][y] += map_list[x][y]
-            if x-1 < n and y+1 < m:
-                dp[x - 1][y + 1] = max(dp[x-1][y+1], dp[x][y])
-            
-            if y+1 < m:
-                dp[x][y+1] = max(dp[x][y+1], dp[x][y])
-            
-            if x+1 < n and y+1 < m:
-                dp[x+1][y+1] = max(dp[x+1][y+1], dp[x][y])
-    
-    result = 0
-    for x in range(n):
-        result = max(result, dp[x][m-1])
+for _ in range(m):
+    a, b, c = map(int, input().split())
+    graph[a][b] = min(graph[a][b], c)
 
-    print(result)
+for k in range(1, n + 1):
+    for a in range(1, n + 1):
+        for b in range(1, n + 1):
+            graph[a][b] = min(graph[a][b], graph[a][k] + graph[k][b])
+
+for a in range(1, n+1):
+    for b in range(1, n+1):
+        if graph[a][b] == INF:
+            print(0, end=' ')
+        else:
+            print(graph[a][b], end=' ')
+    print()
 
 ```
 
@@ -71,8 +61,7 @@ for _ in range(t):
 ```
 
 ## 1-3.고찰
- n과 m 그리고 x와 y에 좌표를 정확하게 이해해야 헷갈리지 않을 거 같다.
-
+pypy3로 해야 시간이 줄어들고 input에 같은 경우가 존재하므로 graph[a][b] = min(graph[a][b], c)이렇게 해야한다.
 
 ## 2.정수 삼각형
 맨 위층부터 시작하여 밑으로 내려갈수록 아래에 있는 수 중 하나를 선택하여 합을 구한 값이 최대가 되는 경로를 구하라.
