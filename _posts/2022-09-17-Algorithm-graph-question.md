@@ -1,67 +1,77 @@
 **---
-title:  "[Algorithm] 알고리즘 정리(16)- 최단경로 알고리즘 기출"
+title:  "[Algorithm] 알고리즘 정리(17)- 그래프 알고리즘 기출"
 excerpt: "코딩 테스트 대비 알고리즘을 정리 하는 글"
 
 categories:
   - algorithm
 tags:
-  - [Blog, algorithm, python, shortest_algorithm]
+  - [Blog, algorithm, python, graph_algorithm]
 
 toc: true
 toc_sticky: true
  
-date: 2022-09-14
-last_modified_at: 2022-09-14
+date: 2022-09-17
+last_modified_at: 2022-09-17
 ---
 
 # 문제
 
-## 1.플로이드
-n개의 도시가 존재하는데 한 도시에서 다른도시로 가는 버스가 m개가 있다.  
-모든 도시 (A, B)에 대하여 가는데 필요한 비용의 최솟값을 구하라.
+## 1.여행계획
+각 여행지가 1~N개 존재한다.  
+여행지의 개수와 정보를 주어졌을때 여행계획이 가능한지 판별하는 프로그램을 만들어라
 
 ## 1-1.내가 푼 답
 
 ```python
-INF = int(1e9)
-
-n = int(input())
-m = int(input())
-
-graph = [[INF] * (n+1) for _ in range(n+1)]
-
-for a in range(1, n+1):
-    for b in range(1, n+1):
-        if a == b:
-            graph[a][b] = 0
-
-for _ in range(m):
-    a, b, c = map(int, input().split())
-    graph[a][b] = min(graph[a][b], c)
-
-for k in range(1, n + 1):
-    for a in range(1, n + 1):
-        for b in range(1, n + 1):
-            graph[a][b] = min(graph[a][b], graph[a][k] + graph[k][b])
-
-for a in range(1, n+1):
-    for b in range(1, n+1):
-        if graph[a][b] == INF:
-            print(0, end=' ')
-        else:
-            print(graph[a][b], end=' ')
-    print()
 
 ```
 
 ## 1-2.다른 풀이
 
 ```python
+n, m = map(int, input().split())
+
+def find_parent(parent, x):
+    if x != parent[x]:
+        parent[x] = find_parent(parent, parent[x])
+    return parent[x]
+
+def union_parent(parent, a, b):
+    a = find_parent(parent, a)
+    b = find_parent(parent, b)
+    if a < b:
+        parent[b] = a
+    else:
+        parent[a] = b
+
+parent = [0] * (n+1)
+
+for i in range(1, n+1):
+    parent[i] = i
+
+for i in range(n):
+    data = list(map(int, input().split()))
+    for j in range(n):
+        if data[j] == 1:
+            union_parent(parent, i+1, j+1)
+
+plan = list(map(int, input().split()))
+
+result = True
+
+for i in range(m-1):
+    if find_parent(parent, plan[i]) != find_parent(parent, plan[i+1]):
+        result = False
+
+if result:
+    print("YES")
+else:
+    print("NO")
 
 ```
 
 ## 1-3.고찰
-pypy3로 해야 시간이 줄어들고 input에 같은 경우가 존재하므로 graph[a][b] = min(graph[a][b], c)이렇게 해야한다.
+
 
 ## 2.정확한 순위
 n명의 학생의 성적을 비교한 결과를 주어졌을 때 성적순위를 알 수 있는 학생들의 수를 구하라.
