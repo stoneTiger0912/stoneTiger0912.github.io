@@ -1,4 +1,4 @@
-**---
+---
 title:  "[Algorithm] 알고리즘 정리(17)- 그래프 알고리즘 기출"
 excerpt: "코딩 테스트 대비 알고리즘을 정리 하는 글"
 
@@ -273,8 +273,8 @@ z = []
 for i in range(1, n+1):
     data = list(map(int, input().split()))
     x.append((data[0], i))
-    x.append((data[1], i))
-    x.append((data[2], i))
+    y.append((data[1], i))
+    z.append((data[2], i))
 
 x.sort()
 y.sort()
@@ -341,9 +341,6 @@ for _ in range(t):
 ## 5-2.다른 풀이
 
 ```python
-import collections
-
-
 from collections import deque
 import sys
 input = sys.stdin.readline

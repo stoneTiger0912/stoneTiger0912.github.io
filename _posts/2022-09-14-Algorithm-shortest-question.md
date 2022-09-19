@@ -122,7 +122,6 @@ print(count)
 ```python
 import heapq
 import sys
-from turtle import distance
 input = sys.stdin.readline
 INF = (1e9)
 
@@ -177,7 +176,6 @@ for t in range(int(input())):
 ```python
 import heapq
 import sys
-from turtle import distance
 input = sys.stdin.readline
 INF = int(1e9)
 
@@ -232,4 +230,3 @@ print(max_node, max_distance, len(result))
 ```
 
 ## 4-3.고찰
-**

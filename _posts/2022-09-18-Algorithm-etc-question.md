@@ -40,8 +40,6 @@ def dfs(a, b, size, count, time):
     if a < 0 or a >= n or b < 0 or b >= n:
         return False
     
-    
-
     if size < graph[a][b]:
         return False
     elif size > graph[a][b] and graph[a][b] != 0:
@@ -78,8 +76,6 @@ print(result)
 ## 답안 예시
 ```python
 from collections import deque
-from re import L
-from tkinter import W
 
 INF = int(1e9)
 
