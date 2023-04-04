@@ -94,6 +94,7 @@ print(*a)
 output: 1 2 3 4 5
 ```
 
+
 # 힙큐
 다익스트라 알고리즘시 사용하여 시간을 절약할 수 있다.
 ```python
@@ -101,7 +102,8 @@ import heapq
 heapq.heappush(q, (0, start))
 dist, now = heapq.heappop(q)
 ```
-  
+
+
 # 입력값의 개수를 모를때
 try-except를 사용하여 입력값이 없을 경우 빠져나오도록 함
 ```python
