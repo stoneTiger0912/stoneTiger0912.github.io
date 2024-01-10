@@ -114,3 +114,8 @@ while True:
     except EOFError:
         break
 ```
+
+# 숫자 단위 구분
+```python
+int n = 100_000_000 # _로 구분 가능
+```
